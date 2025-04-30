@@ -16,7 +16,10 @@
     tb_set_cell/5,
     tb_peek_event/1,
     tb_poll_event/0,
-    tb_print/5
+    tb_print/5,
+    tb_set_input_mode/1,
+    tb_set_output_mode/1,
+    tb_set_clear_attrs/2
 ]).
 -nifs([
     tb_init/0,
@@ -30,7 +33,10 @@
     tb_set_cell/5,
     tb_peek_event/1,
     tb_poll_event/0,
-    tb_print/5
+    tb_print/5,
+    tb_set_input_mode/1,
+    tb_set_output_mode/1,
+    tb_set_clear_attrs/2
 ]).
 -on_load(init/0).
 
@@ -89,4 +95,16 @@ tb_poll_event() ->
 
 %% @doc Print the string at the X and y locations with fg and background colors set.
 tb_print(_X, _Y, _Fg, _Bg, _Str) ->
+    erlang:nif_error(nif_library_not_loaded).
+
+%% @doc Sets the termbox input mode.
+tb_set_input_mode(_Mode) ->
+    erlang:nif_error(nif_library_not_loaded).
+
+%% @doc Sets the termbox output mode.
+tb_set_output_mode(_Mode) ->
+    erlang:nif_error(nif_library_not_loaded).
+
+%% @doc Sets the default foreground and background attributes used by tb_clear().
+tb_set_clear_attrs(_Fg, _Bg) ->
     erlang:nif_error(nif_library_not_loaded).

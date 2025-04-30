@@ -106,6 +106,28 @@ static ERL_NIF_TERM nif_tb_print(ErlNifEnv *env, int argc, const ERL_NIF_TERM ar
   return res;
 }
 
+static ERL_NIF_TERM nif_tb_set_input_mode(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
+{
+  int mode;
+  if (!enif_get_int(env, argv[0], &mode)) return enif_make_badarg(env);
+  return enif_make_int(env, tb_set_input_mode(mode));
+}
+
+static ERL_NIF_TERM nif_tb_set_output_mode(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
+{
+  int mode;
+  if (!enif_get_int(env, argv[0], &mode)) return enif_make_badarg(env);
+  return enif_make_int(env, tb_set_output_mode(mode));
+}
+
+static ERL_NIF_TERM nif_tb_set_clear_attrs(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
+{
+  unsigned long fg, bg;
+  if (!enif_get_uint64(env, argv[0], &fg)) return enif_make_badarg(env);
+  if (!enif_get_uint64(env, argv[1], &bg)) return enif_make_badarg(env);
+  return enif_make_int(env, tb_set_clear_attrs((uintattr_t)fg, (uintattr_t)bg));
+}
+
 static ErlNifFunc nif_funcs[] = {
     {"tb_init", 0, nif_tb_init},
     {"tb_shutdown", 0, nif_tb_shutdown},
@@ -118,7 +140,10 @@ static ErlNifFunc nif_funcs[] = {
     {"tb_set_cell", 5, nif_tb_set_cell},
     {"tb_peek_event", 1, nif_tb_peek_event, ERL_NIF_DIRTY_JOB_CPU_BOUND},
     {"tb_poll_event", 0, nif_tb_poll_event, ERL_NIF_DIRTY_JOB_CPU_BOUND},
-    {"tb_print", 5, nif_tb_print}
+    {"tb_print", 5, nif_tb_print},
+    {"tb_set_clear_attrs", 2, nif_tb_set_clear_attrs},
+    {"tb_set_input_mode", 1, nif_tb_set_input_mode},
+    {"tb_set_output_mode", 1, nif_tb_set_output_mode}
 };
 
 ERL_NIF_INIT(termbox2, nif_funcs, NULL, NULL, NULL, NULL)

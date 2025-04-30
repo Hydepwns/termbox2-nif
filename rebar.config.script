@@ -1,7 +1,7 @@
 NifSharedSources = ["c_src/termbox2_nif.c"].
 NifStaticSources = NifSharedSources.
 CFlagsDefault = "$CFLAGS -Os ".
-DrvLdFlagsDefault = "-shared -ltermbox2".
+DrvLdFlagsDefault = "-shared".
 
 DrvLdFlags =
     case os:getenv("TERMBOX2_CFLAGS") of
@@ -24,6 +24,7 @@ CFlags =
 [
     {minimum_otp_vsn, "24.0"},
     {project_plugins, [rebar3_ex_doc, rebar3_hex]},
+    {files, ["src", "c_src", "priv", "LICENSE", "README.md"]},
 
     {erl_opts, [debug_info]},
 

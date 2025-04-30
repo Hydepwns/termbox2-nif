@@ -44,9 +44,10 @@ endif
 C_SRC_DIR = $(CURDIR)
 C_SRC_OUTPUT ?= $(CURDIR)/../priv/$(PROJECT).$(SO_EXTENSION)
 
+TERMBOX2_SRC_DIR = $(C_SRC_DIR)/termbox2/src
 
-CFLAGS += -fPIC -I $(ERTS_INCLUDE_DIR) -I $(ERL_INTERFACE_INCLUDE_DIR) -I $(ERL_INCLUDE) 
-CXXFLAGS += -fPIC -I $(ERTS_INCLUDE_DIR) -I $(ERL_INTERFACE_INCLUDE_DIR)
+CFLAGS += -fPIC -I $(ERTS_INCLUDE_DIR) -I $(ERL_INTERFACE_INCLUDE_DIR) -I $(ERL_INCLUDE) -I $(TERMBOX2_SRC_DIR)
+CXXFLAGS += -fPIC -I $(ERTS_INCLUDE_DIR) -I $(ERL_INTERFACE_INCLUDE_DIR) -I $(TERMBOX2_SRC_DIR)
 
 LDLIBS += -L $(ERL_INTERFACE_LIB_DIR) -L $(ERL_LIB) -lei 
 
@@ -62,28 +63,33 @@ cpp_verbose = $(cpp_verbose_$(V))
 link_verbose_0 = @echo " LD    " $(@F);
 link_verbose = $(link_verbose_$(V))
 
-SOURCES := $(shell find $(C_SRC_DIR) -type f \( -name "*.c" -o -name "*.C" -o -name "*.cc" -o -name "*.cpp" -maxdepth 1 \))
-OBJECTS = $(addsuffix .o, $(basename $(SOURCES)))
+NIF_SOURCES := $(wildcard $(C_SRC_DIR)/*.c) $(wildcard $(C_SRC_DIR)/*.C) $(wildcard $(C_SRC_DIR)/*.cc) $(wildcard $(C_SRC_DIR)/*.cpp)
+TERMBOX_SOURCES := $(wildcard $(TERMBOX2_SRC_DIR)/*.c) $(wildcard $(TERMBOX2_SRC_DIR)/*.C) $(wildcard $(TERMBOX2_SRC_DIR)/*.cc) $(wildcard $(TERMBOX2_SRC_DIR)/*.cpp)
+SOURCES := $(NIF_SOURCES) $(TERMBOX_SOURCES)
+
+OBJECTS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
+OBJ_DIR = $(CURDIR)/obj
+OBJECT_FILES = $(addprefix $(OBJ_DIR)/, $(OBJECTS))
 
 COMPILE_C = $(c_verbose) $(CC) $(CFLAGS) $(CPPFLAGS) -c
 COMPILE_CPP = $(cpp_verbose) $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c 
 
 
-$(C_SRC_OUTPUT): $(OBJECTS)
+$(C_SRC_OUTPUT): $(OBJECT_FILES)
 	@mkdir -p $(BASEDIR)/priv/
-	$(link_verbose) $(CC) $(CFLAGS) $(OBJECTS) $(LDFLAGS) $(LDLIBS) -o $(C_SRC_OUTPUT)
+	$(link_verbose) $(CC) $(CFLAGS) $(OBJECT_FILES) $(LDFLAGS) $(LDLIBS) -o $(C_SRC_OUTPUT)
 
-%.o: %.c
-	$(COMPILE_C) $(OUTPUT_OPTION) $<
+$(OBJ_DIR)/%.o: $(C_SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(COMPILE_C) $(OUTPUT_OPTION) $< -o $@
 
-%.o: %.cc
-	$(COMPILE_CPP) $(OUTPUT_OPTION) $<
+$(OBJ_DIR)/%.o: $(TERMBOX2_SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(COMPILE_C) $(OUTPUT_OPTION) $< -o $@
 
-%.o: %.C
-	$(COMPILE_CPP) $(OUTPUT_OPTION) $<
-
-%.o: %.cpp
-	$(COMPILE_CPP) $(OUTPUT_OPTION) $<
+# Add rules for C++ if needed, copying the pattern above
 
 clean:
-	@rm -f $(C_SRC_OUTPUT) $(OBJECTS)
+	@rm -f $(C_SRC_OUTPUT)
+	@rm -f $(OBJECT_FILES)
+	@rm -rf $(OBJ_DIR)

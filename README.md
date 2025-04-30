@@ -5,7 +5,6 @@
 [![Issues](https://img.shields.io/github/issues/wmealing/termbox2-nif.svg?style=for-the-badge)](https://github.com/wmealing/termbox2-nif/issues)
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://github.com/wmealing/termbox2-nif/blob/master/LICENSE)
 
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -14,7 +13,7 @@
   </a>
 <h3 align="center">TERMBOX2-NIF</h3>
   <p align="center">
-	An erlang wrapper for the termbox2 library.
+ An erlang wrapper for the termbox2 library.
     <br />
     <a href="https://github.com/wmealing/termbox2-nif"><strong>Explore the docs »</strong></a>
     <br />
@@ -50,8 +49,6 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
@@ -62,10 +59,7 @@ Tired of writing web apps that may make your app popular and usable by many whil
 
 You could write a TUI, using this library to avoid the pitfalls.
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -77,33 +71,33 @@ You could write a TUI, using this library to avoid the pitfalls.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-
 ### Prerequisites
 
 You will need to have a
+
 * modern erlang  (Version 22+)
-* make 
+* make
 * c compiler.
 
 ### Installation
 
 TBD: Should we get this from hex.pm show how to use it as a dep ?
 
-
 Manually:
 
 1. Clone this repo.
+
    ```sh
    git clone https://github.com/wmealing/termbox2-nif.git
    ```
-2. Build the library 
+
+2. Build the library
+
    ```sh
-	make
+ make
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -114,19 +108,16 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Erlang NIF created.
-- [ ] Gleam wrapper created.
-- [ ] Elixir wrapper 
+* [x] Erlang NIF created.
+* [ ] Gleam wrapper created.
+* [ ] Elixir wrapper
 
 See the [open issues](https://github.com/wmealing/termbox2-nif/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -151,19 +142,16 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
 ## Contact
 
-- Wade Mealing  - wmealing@gmail.com
+* Wade Mealing  - <wmealing@gmail.com>
 
-- Garlic0x1 - https://github.com/garlic0x1
+* Garlic0x1 - <https://github.com/garlic0x1>
 
 Project Link: [https://github.com/wmealing/termbox2-nif](https://github.com/wmealing/termbox2-nif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
@@ -171,8 +159,6 @@ Project Link: [https://github.com/wmealing/termbox2-nif](https://github.com/wmea
 Used with permission from the garlic0x1 original author. Published to hex.pm with permission.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

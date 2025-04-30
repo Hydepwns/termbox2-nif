@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Module termbox2</title>
+<link rel="stylesheet" type="text/css" href="style.css" title="EDoc">
+</head>
+<body bgcolor="white">
+<div class="navbar"><a name="#navbar_top"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<hr>
+
+<h1>Module termbox2</h1>
+<ul class="index"><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>
+
+<p><b>Version:</b> 0.1.1</p>
+<p><b>Authors:</b> Wade Mealing (<a href="mailto:wmealing@gmail.com"><code>wmealing@gmail.com</code></a>).</p>
+
+<h2><a name="index">Function Index</a></h2>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#tb_init-0">tb_init/0</a></td><td>Initializes the termbox library.</td></tr>
+<tr><td valign="top"><a href="#tb_shutdown-0">tb_shutdown/0</a></td><td>The library must be finalized using the tb_shutdown() function.</td></tr>
+<tr><td valign="top"><a href="#tb_width-0">tb_width/0</a></td><td>Returns the size of the internal back buffer (which is the same as terminal's window size in columns.</td></tr>
+<tr><td valign="top"><a href="#tb_height-0">tb_height/0</a></td><td>Returns the size of the internal back buffer (which is the same as terminal's window size in rows.</td></tr>
+<tr><td valign="top"><a href="#tb_clear-0">tb_clear/0</a></td><td>Clears the internal back buffer using TB_DEFAULT color.</td></tr>
+<tr><td valign="top"><a href="#tb_present-0">tb_present/0</a></td><td>Synchronizes the internal back buffer with the terminal by writing to the tty.</td></tr>
+<tr><td valign="top"><a href="#tb_set_cursor-2">tb_set_cursor/2</a></td><td>Sets the position of the cursor.</td></tr>
+<tr><td valign="top"><a href="#tb_hide_cursor-0">tb_hide_cursor/0</a></td><td>Hides the cursor, not every tty supports this.</td></tr>
+<tr><td valign="top"><a href="#tb_set_cell-5">tb_set_cell/5</a></td><td>Sets the individual position of the screen at x,y to character ch, with foreground color fg and bg color bg.</td></tr>
+<tr><td valign="top"><a href="#tb_peek_event-1">tb_peek_event/1</a></td><td>Wait for an event up to timeout_ms milliseconds, returning event details in a tuple.</td></tr>
+<tr><td valign="top"><a href="#tb_poll_event-0">tb_poll_event/0</a></td><td>Same as tb_peek_event except no timeout, probably going to beat up erlang scheduler, maybe ?.</td></tr>
+<tr><td valign="top"><a href="#tb_print-5">tb_print/5</a></td><td>Print the string at the X and y locations with fg and background colors set.</td></tr>
+<tr><td valign="top"><a href="#tb_set_input_mode-1">tb_set_input_mode/1</a></td><td>Sets the termbox input mode.</td></tr>
+<tr><td valign="top"><a href="#tb_set_output_mode-1">tb_set_output_mode/1</a></td><td>Sets the termbox output mode.</td></tr>
+<tr><td valign="top"><a href="#tb_set_clear_attrs-2">tb_set_clear_attrs/2</a></td><td>Sets the default foreground and background attributes used by tb_clear().</td></tr>
+</table>
+
+<h2><a name="functions">Function Details</a></h2>
+
+<h3 class="function"><a name="tb_init-0">tb_init/0</a></h3>
+<div class="spec">
+<p><code>tb_init() -&gt; any()</code></p>
+<p> </p>
+</div><p>Initializes the termbox library. This function should be called before any other functions.</p>
+
+<h3 class="function"><a name="tb_shutdown-0">tb_shutdown/0</a></h3>
+<div class="spec">
+<p><code>tb_shutdown() -&gt; any()</code></p>
+<p> </p>
+</div><p>The library must be finalized using the tb_shutdown() function.  Called only when no more tb_ functions are required.</p>
+
+<h3 class="function"><a name="tb_width-0">tb_width/0</a></h3>
+<div class="spec">
+<p><code>tb_width() -&gt; any()</code></p>
+<p> </p>
+</div><p>Returns the size of the internal back buffer (which is the same as terminal's window size in columns</p>
+
+<h3 class="function"><a name="tb_height-0">tb_height/0</a></h3>
+<div class="spec">
+<p><code>tb_height() -&gt; any()</code></p>
+<p> </p>
+</div><p>Returns the size of the internal back buffer (which is the same as terminal's window size in rows</p>
+
+<h3 class="function"><a name="tb_clear-0">tb_clear/0</a></h3>
+<div class="spec">
+<p><code>tb_clear() -&gt; any()</code></p>
+<p> </p>
+</div><p>Clears the internal back buffer using TB_DEFAULT color.</p>
+
+<h3 class="function"><a name="tb_present-0">tb_present/0</a></h3>
+<div class="spec">
+<p><code>tb_present() -&gt; any()</code></p>
+<p> </p>
+</div><p>Synchronizes the internal back buffer with the terminal by writing to the tty.</p>
+
+<h3 class="function"><a name="tb_set_cursor-2">tb_set_cursor/2</a></h3>
+<div class="spec">
+<p><code>tb_set_cursor(X, Y) -&gt; any()</code></p>
+<p> </p>
+</div><p>Sets the position of the cursor. Upper-left character is (0, 0).</p>
+
+<h3 class="function"><a name="tb_hide_cursor-0">tb_hide_cursor/0</a></h3>
+<div class="spec">
+<p><code>tb_hide_cursor() -&gt; any()</code></p>
+<p> </p>
+</div><p>Hides the cursor, not every tty supports this.</p>
+
+<h3 class="function"><a name="tb_set_cell-5">tb_set_cell/5</a></h3>
+<div class="spec">
+<p><code>tb_set_cell(X, Y, Ch, Fg, Bg) -&gt; any()</code></p>
+<p> </p>
+</div><p>Sets the individual position of the screen at x,y to character ch, with foreground color fg and bg color bg.</p>
+
+<h3 class="function"><a name="tb_peek_event-1">tb_peek_event/1</a></h3>
+<div class="spec">
+<p><code>tb_peek_event(Timeout) -&gt; any()</code></p>
+<p> </p>
+</div><p>Wait for an event up to timeout_ms milliseconds, returning event details in a tuple.</p>
+
+<h3 class="function"><a name="tb_poll_event-0">tb_poll_event/0</a></h3>
+<div class="spec">
+<p><code>tb_poll_event() -&gt; any()</code></p>
+<p> </p>
+</div><p>Same as tb_peek_event except no timeout, probably going to beat up erlang scheduler, maybe ?</p>
+
+<h3 class="function"><a name="tb_print-5">tb_print/5</a></h3>
+<div class="spec">
+<p><code>tb_print(X, Y, Fg, Bg, Str) -&gt; any()</code></p>
+<p> </p>
+</div><p>Print the string at the X and y locations with fg and background colors set.</p>
+
+<h3 class="function"><a name="tb_set_input_mode-1">tb_set_input_mode/1</a></h3>
+<div class="spec">
+<p><code>tb_set_input_mode(Mode) -&gt; any()</code></p>
+<p> </p>
+</div><p>Sets the termbox input mode.</p>
+
+<h3 class="function"><a name="tb_set_output_mode-1">tb_set_output_mode/1</a></h3>
+<div class="spec">
+<p><code>tb_set_output_mode(Mode) -&gt; any()</code></p>
+<p> </p>
+</div><p>Sets the termbox output mode.</p>
+
+<h3 class="function"><a name="tb_set_clear_attrs-2">tb_set_clear_attrs/2</a></h3>
+<div class="spec">
+<p><code>tb_set_clear_attrs(Fg, Bg) -&gt; any()</code></p>
+<p> </p>
+</div><p>Sets the default foreground and background attributes used by tb_clear().</p>
+<hr>
+
+<div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<p><i>Generated by EDoc</i></p>
+</body>
+</html>

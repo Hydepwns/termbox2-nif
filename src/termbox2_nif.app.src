@@ -1,9 +1,9 @@
-{application, termbox2,
+{application, termbox2_nif,
  [{description, "Underlying NIF to use the termbox2 C API"},
-  {vsn, "0.1.4"},
+  {vsn, "0.1.5"},
   {pkg_name, termbox2_nif},
   {registered, []},
-  {mod, {termbox2_app, []}},
+  % {mod, {termbox2_nif_app, []}},  % No application callback module needed
   {applications,
    [kernel,
     stdlib

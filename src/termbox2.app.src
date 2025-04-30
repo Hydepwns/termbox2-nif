@@ -11,5 +11,5 @@
   {modules, []},
 
   {licenses, ["Apache-2.0"]},
-  {links, [{"GitHub", "https://github.com/wmealing/termbox2-nif"}]}
+  {links, [{"GitHub", "https://github.com/Hydepwns/termbox2-nif"}]}
  ]}.

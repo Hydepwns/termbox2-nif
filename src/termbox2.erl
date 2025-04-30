@@ -35,7 +35,9 @@
 -on_load(init/0).
 
 init() ->
-    ok = erlang:load_nif("./priv/termbox2_nif", 0).
+    PrivDir = code:priv_dir(termbox2),
+    NifFile = filename:join(PrivDir, "termbox2_nif"),
+    ok = erlang:load_nif(NifFile, 0).
 
 
 %% @doc Initializes the termbox library. This function should be called before any other functions.

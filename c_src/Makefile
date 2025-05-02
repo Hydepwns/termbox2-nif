@@ -28,7 +28,7 @@ ifeq ($(UNAME_SYS), Darwin)
 	CFLAGS ?= -O3 -std=c99 -finline-functions -Wall -Wmissing-prototypes -undefined dynamic_lookup -dynamiclib
 	CXXFLAGS ?= -O3 -finline-functions -Wall
 	LDFLAGS ?= -undefined dynamic_lookup -dynamiclib
-	SO_EXTENSION ?= so
+	SO_EXTENSION ?= dylib
 else ifeq ($(UNAME_SYS), FreeBSD)
 	CC ?= cc
 	CFLAGS ?= -O3 -std=c99 -finline-functions -Wall -Wmissing-prototypes

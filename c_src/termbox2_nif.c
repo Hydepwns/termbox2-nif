@@ -146,4 +146,4 @@ static ErlNifFunc nif_funcs[] = {
     {"tb_set_output_mode", 1, nif_tb_set_output_mode}
 };
 
-ERL_NIF_INIT(termbox2, nif_funcs, NULL, NULL, NULL, NULL)
+ERL_NIF_INIT(termbox2_nif, nif_funcs, NULL, NULL, NULL, NULL)

@@ -1,3 +1,21 @@
+# Erlang/Rebar3
+/_build
+rebar.lock
+erl_crash.dump
+ebin/*.beam
+
+# NIF compilation
+c_src/obj/
+priv/
+*.so
+*.dylib
+*.dll
+*.o
+
+# Documentation
+/doc/
+
+# macOS
 .DS_Store
 .idea
 *.log
@@ -5,6 +23,5 @@ tmp/
 
 .ccls-cache/
 *.beam
-*.so
 *.dump
 compile_commands.json

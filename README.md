@@ -1,61 +1,51 @@
 <a name="readme-top"></a>
 
-[![Contributors](https://img.shields.io/github/contributors/wmealing/termbox2-nif.svg?style=for-the-badge)](https://github.com/wmealing/termbox2-nif/graphs/contributors)
-[![Forks](https://img.shields.io/github/forks/wmealing/termbox2-nif.svg?style=for-the-badge)](https://github.com/wmealing/termbox2-nif/network/members)
-[![Issues](https://img.shields.io/github/issues/wmealing/termbox2-nif.svg?style=for-the-badge)](https://github.com/wmealing/termbox2-nif/issues)
-[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://github.com/wmealing/termbox2-nif/blob/master/LICENSE)
+[![Contributors](https://img.shields.io/github/contributors/Hydepwns/termbox2-nif.svg?style=for-the-badge)](https://github.com/Hydepwns/termbox2-nif/graphs/contributors)
+[![Forks](https://img.shields.io/github/forks/Hydepwns/termbox2-nif.svg?style=for-the-badge)](https://github.com/Hydepwns/termbox2-nif/network/members)
+[![Issues](https://img.shields.io/github/issues/Hydepwns/termbox2-nif.svg?style=for-the-badge)](https://github.com/Hydepwns/termbox2-nif/issues)
+[![Hex.pm Version](https://img.shields.io/hexpm/v/termbox2_nif.svg?style=for-the-badge)](https://hex.pm/packages/termbox2_nif)
+[![License](https://img.shields.io/hexpm/l/termbox2_nif.svg?style=for-the-badge)](https://github.com/Hydepwns/termbox2-nif/blob/master/LICENSE)
 
 <!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/wmealing/termbox2-nif">
-    <img src="https://github.com/wmealing/termbox2-nif/raw/master/images/logo.svg" alt="Logo" width="80" height="80">
-  </a>
-<h3 align="center">TERMBOX2-NIF</h3>
-  <p align="center">
- An erlang wrapper for the termbox2 library.
-    <br />
-    <a href="https://github.com/wmealing/termbox2-nif"><strong>Explore the docs »</strong></a>
-    <br />
-    <a href="https://github.com/wmealing/termbox2-nif">View Demo</a>·
-    <a href="https://github.com/wmealing/termbox2-nif/issues/new?labels=bug">Report Bug</a>·
-    <a href="https://github.com/wmealing/termbox2-nif/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
-  </p>
-</div>
+[<img src="https://github.com/wmealing/termbox2-nif/raw/master/images/logo.svg" alt="Logo" width="80" height="80">](https://github.com/Hydepwns/termbox2-nif)
+<!-- TODO: Update logo source if moved -->
+
+### TERMBOX2-NIF
+
+An erlang wrapper for the termbox2 library.
+
+[**Explore the docs »**](https://github.com/Hydepwns/termbox2-nif) ·
+[View Demo](https://github.com/Hydepwns/termbox2-nif) ·
+[Report Bug](https://github.com/Hydepwns/termbox2-nif/issues/new?labels=bug) ·
+[Request Feature](https://github.com/Hydepwns/termbox2-nif/issues/new?labels=enhancement&template=feature-request---.md)
+
+---
 
 <!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
+## Table of Contents
+
+* [About The Project](#about-the-project)
+  * [Built With](#built-with)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+* [Testing](#testing)
+* [Usage](#usage)
+* [Roadmap](#roadmap)
+* [Contributing](#contributing)
+* [License](#license)
+* [Contact](#contact)
+* [Acknowledgments](#acknowledgments)
+
+---
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Ever wanted to write a TUI library based on termbox2 in beam based languages ?
-Tired of writing web apps that may make your app popular and usable by many while likely wasting near gigabytes of memory ?
+Ever wanted to write a TUI library based on termbox2 in beam based languages?
+Tired of writing web apps that may make your app popular and usable by many while likely wasting near gigabytes of memory?
 
 You could write a TUI, using this library to avoid the pitfalls.
 
@@ -73,38 +63,95 @@ You could write a TUI, using this library to avoid the pitfalls.
 
 ### Prerequisites
 
-You will need to have a
+You will need to have a:
 
-* modern erlang  (Version 22+)
+* modern erlang (Version 22+)
 * make
 * c compiler.
 
 ### Installation
 
-TBD: Should we get this from hex.pm show how to use it as a dep ?
+1. Add `termbox2_nif` to your list of dependencies in `rebar.config`:
 
-Manually:
+    ```erlang
+    {deps, [
+      {termbox2_nif, "~> 0.1.5"}
+    ]}.
+    ```
 
-1. Clone this repo.
+2. Ensure `rebar3_hex` is added to your plugins in `rebar.config` (if not already):
 
-   ```sh
-   git clone https://github.com/wmealing/termbox2-nif.git
-   ```
+    ```erlang
+    {plugins, [
+      rebar3_hex
+    ]}.
+    ```
 
-2. Build the library
+3. Fetch and compile the dependencies:
 
-   ```sh
- make
-   ```
+    ```sh
+    rebar3 get-deps
+    rebar3 compile
+    ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- TESTING -->
+## Testing
+
+To run the automated tests, use the following command:
+
+```sh
+rebar3 ct
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Here's a basic example of how to initialize termbox, print a message, wait for a key press, and shut down. Run this in an Erlang shell (`erl`):
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+```erlang
+%% Define default attributes (foreground/background)
+-define(TB_DEFAULT, 0).
+
+%% Initialize termbox
+ok = termbox2_nif:tb_init(),
+
+%% Clear the screen with default attributes
+%% Note: tb_set_clear_attrs/2 could be used to change defaults
+ok = termbox2_nif:tb_clear(),
+
+%% Print "Hello, termbox!" at position (1, 1)
+Str = "Hello, termbox!",
+X = 1, Y = 1,
+Fg = ?TB_DEFAULT, Bg = ?TB_DEFAULT,
+ok = termbox2_nif:tb_print(X, Y, Fg, Bg, Str),
+
+%% Present the buffer to the terminal
+ok = termbox2_nif:tb_present(),
+
+%% Wait for any event (like a key press)
+{ok, _Type, _Mod, _KeyOrChar} = termbox2_nif:tb_poll_event(),
+
+%% Shut down termbox
+ok = termbox2_nif:tb_shutdown().
+```
+
+Constants for colors (like `TB_RED`, `TB_BOLD`) and event types/keys are typically defined in the `termbox2.h` header. You would usually define corresponding Erlang constants or functions to map these for easier use.
+
+_For more detailed examples and API usage, please refer to the underlying [termbox2 documentation](https://github.com/termbox/termbox2) and the NIF source code (`c_src/termbox2_nif.c`)._
+
+### API Documentation
+
+To generate local API documentation using `ex_doc`:
+
+```sh
+rebar3 ex_doc
+```
+
+Then open the generated `doc/index.html` file in your web browser.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -115,7 +162,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 * [ ] Gleam wrapper created.
 * [ ] Elixir wrapper
 
-See the [open issues](https://github.com/wmealing/termbox2-nif/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/Hydepwns/termbox2-nif/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -145,11 +192,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-* Wade Mealing  - <wmealing@gmail.com>
-
+* DROO (Hydepwns) - <https://github.com/hydepwns>
+* Wade Mealing - <wmealing@gmail.com>
 * Garlic0x1 - <https://github.com/garlic0x1>
 
-Project Link: [https://github.com/wmealing/termbox2-nif](https://github.com/wmealing/termbox2-nif)
+Project Link: [https://github.com/Hydepwns/termbox2-nif](https://github.com/Hydepwns/termbox2-nif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

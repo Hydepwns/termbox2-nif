@@ -5,24 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.7] - 2025-05-02
-
-### Added
-
-- Usage example in `README.md`.
-- Documentation generation instructions (`rebar3 ex_doc`) in `README.md`.
-
-### Changed
-
-- Updated project version in `src/termbox2_nif.app.src`.
+## [0.1.8] - YYYY-MM-DD
 
 ### Fixed
+- Removed non-existent application callback module (`termbox2_nif_app`) from `.app.src` file to prevent runtime errors when used as a dependency.
 
-- Committed overlooked macOS NIF loading fixes (`c_src/Makefile`, `c_src/termbox2_nif.c`).
+## [0.1.7] - 2024-07-24
 
-### Removed
+### Added
+- Added `README.md` documentation about generating edoc documentation.
+- Added basic `.gitignore` file.
+- Published package to hex.pm.
 
-- Stopped tracking build artifacts (`_build`, `c_src/obj`, `priv`), generated docs (`doc`), and old test file (`test/termbox2_test.erl`) in git.
+### Fixed
+- Ensured NIFs load correctly and can be called from Erlang.
+- Ensured `edoc` documentation generation works.
 
 ## [0.1.6] - 2025-05-02
 
@@ -48,3 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.1] - 2024-04-25
 
 - Initial publish attempt.
+
+## [0.1.0] - 2024-07-23
+
+### Added
+- Initial setup with basic NIF functions for termbox2.
+- Basic tests to verify NIF loading.

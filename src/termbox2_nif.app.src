@@ -1,9 +1,9 @@
 {application, termbox2_nif,
  [{description, "Underlying NIF to use the termbox2 C API"},
-  {vsn, "0.1.5"},
+  {vsn, "0.1.7"},
   {pkg_name, termbox2_nif},
   {registered, []},
-  % {mod, {termbox2_nif_app, []}},  % No application callback module needed
+  {mod, {termbox2_nif_app, []}},
   {applications,
    [kernel,
     stdlib
@@ -11,6 +11,6 @@
   {env,[]},
   {modules, []},
 
-  {licenses, ["Apache-2.0"]},
+  {licenses, ["MIT"]},
   {links, [{"GitHub", "https://github.com/Hydepwns/termbox2-nif"}]}
  ]}.

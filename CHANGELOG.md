@@ -5,7 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.6] - YYYY-MM-DD
+## [0.1.7] - 2025-05-02
+
+### Added
+
+- Usage example in `README.md`.
+- Documentation generation instructions (`rebar3 ex_doc`) in `README.md`.
+
+### Changed
+
+- Updated project version in `src/termbox2_nif.app.src`.
+
+### Fixed
+
+- Committed overlooked macOS NIF loading fixes (`c_src/Makefile`, `c_src/termbox2_nif.c`).
+
+### Removed
+
+- Stopped tracking build artifacts (`_build`, `c_src/obj`, `priv`), generated docs (`doc`), and old test file (`test/termbox2_test.erl`) in git.
+
+## [0.1.6] - 2025-05-02
 
 ### Added
 

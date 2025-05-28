@@ -4,7 +4,13 @@ defmodule Termbox2.MixProject do
   def project do
     [
       app: :termbox2_elixir,
-      version: "0.1.0",
+      version: "2.0.0",
+      description: "Elixir wrapper for the termbox2_nif NIF library, providing terminal UI capabilities via termbox2.",
+      licenses: ["MIT"],
+      links: %{ 
+        "GitHub" => "https://github.com/Hydepwns/termbox2-nif",
+        "Docs" => "https://hexdocs.pm/termbox2_elixir"
+      },
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps()

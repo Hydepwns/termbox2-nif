@@ -1,0 +1,19 @@
+{
+  "configurations": [
+    {
+      "name": "Mac",
+      "includePath": [
+        "${workspaceFolder}/c_src/termbox2",
+        "/Users/droo/.asdf/installs/erlang/26.2/erts-14.2/include",
+        "${workspaceFolder}/**"
+      ],
+      "defines": [],
+      "macFrameworkPath": [],
+      "compilerPath": "/usr/bin/cc",
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "macos-arm64-clang"
+    }
+  ],
+  "version": 4
+} 

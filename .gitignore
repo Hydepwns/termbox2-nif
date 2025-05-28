@@ -1,0 +1,40 @@
+# Erlang/Rebar3
+_build/
+*.beam
+*.dump
+erl_crash.dump
+ebin/*.beam
+# NIF compilation
+c_src/obj/
+*.so
+*.dylib
+*.dll
+*.o
+
+# Wrappers
+wrappers/elixir/_build/
+wrappers/gleam/build/
+wrappers/elixir/rebar.lock
+wrappers/gleam/rebar.lock
+wrappers/elixir/deps/
+wrappers/gleam/deps/
+
+# Documentation
+doc/*
+
+# macOS
+.DS_Store
+.idea
+*.log
+tmp/
+
+# C/C++ related
+.ccls-cache/
+compile_commands.json
+
+# Gleam build artifacts
+wrappers/gleam/build/
+wrappers/gleam/ebin/
+wrappers/gleam/.cache/
+wrappers/gleam/.gleam/
+c_src/termbox2

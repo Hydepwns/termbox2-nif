@@ -1,0 +1,15 @@
+{application, termbox2_nif,
+ [{description, "Underlying NIF to use the termbox2 C API"},
+  {vsn, "0.1.9"},
+  {pkg_name, termbox2_nif},
+  {registered, []},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {licenses, ["MIT"]},
+  {links, [{"GitHub", "https://github.com/Hydepwns/termbox2-nif"}]}
+ ]}.

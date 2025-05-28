@@ -27,7 +27,7 @@ ifeq ($(UNAME_SYS), Darwin)
 	CFLAGS ?= -O3 -std=c99 -finline-functions -Wall -Wmissing-prototypes -undefined dynamic_lookup -dynamiclib
 	CXXFLAGS ?= -O3 -finline-functions -Wall
 	LDFLAGS ?= -undefined dynamic_lookup -dynamiclib
-	SO_EXTENSION ?= so
+	SO_EXTENSION := so
 else ifeq ($(UNAME_SYS), FreeBSD)
 	CC ?= cc
 	CFLAGS ?= -O3 -std=c99 -finline-functions -Wall -Wmissing-prototypes
@@ -91,7 +91,7 @@ $(OBJECT_FILES): termbox2_fetch
 
 $(C_SRC_OUTPUT): $(OBJECT_FILES)
 	@mkdir -p $(BASEDIR)/priv/
-	$(link_verbose) $(CC) $(CFLAGS) $(OBJECT_FILES) $(LDFLAGS) $(LDLIBS) -o $(C_SRC_OUTPUT)
+	$(link_verbose) $(CC) $(CFLAGS) $(OBJECT_FILES) $(LDFLAGS) $(LDLIBS) -o $(BASEDIR)/priv/$(PROJECT).so
 
 $(OBJ_DIR)/%.o: $(C_SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
@@ -100,6 +100,6 @@ $(OBJ_DIR)/%.o: $(C_SRC_DIR)/%.c
 # No termbox2 .c files to compile, header-only
 
 clean:
-	@rm -f $(C_SRC_OUTPUT)
+	@rm -f $(CURDIR)/../priv/$(PROJECT).so
 	@rm -f $(OBJECT_FILES)
 	@rm -rf $(OBJ_DIR)

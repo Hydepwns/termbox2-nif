@@ -26,6 +26,66 @@ def deps do
 end
 ```
 
+---
+
+## Unified Build, Test, and Clean (Recommended)
+
+> **Always use these commands from the project root for all development and CI.**
+
+```sh
+make build      # Build everything (C, Erlang, Elixir, Gleam)
+make test       # Run all tests (Erlang, Elixir, Gleam)
+make clean-all  # Clean all build artifacts and outputs
+```
+
+Or from this directory:
+
+```sh
+make build   # Build (delegates to root)
+make test    # Test (delegates to root)
+make clean   # Clean wrapper build artifacts
+```
+
+These commands ensure the correct NIF/BEAM files are always in place. **Do not manually copy or symlink NIF/BEAM files.**
+
+---
+
+## Quick Reference
+
+| Action         | From Project Root      | From Wrapper Directory      |
+|----------------|-----------------------|----------------------------|
+| Build all      | `make build`          | `make build`               |
+| Test all       | `make test`           | `make test`                |
+| Clean all      | `make clean-all`      | `make clean`               |
+
+---
+
+## CI Usage
+
+Use these targets in your CI (e.g., GitHub Actions):
+
+```yaml
+- run: make build
+- run: make test
+```
+
+---
+
+## Troubleshooting FAQ
+
+- **NIF not found:**
+  - Run `make build` from the project root.
+  - Ensure you have a C compiler installed (GCC/Clang).
+  - Check that you have permission to write to the build directories.
+- **Permissions errors:**
+  - If you see permission errors, try `chmod +x rebar3` or run as a user with appropriate rights.
+- **Platform-specific notes:**
+  - **macOS:** You may need to run `xcode-select --install` to install developer tools.
+  - **Linux:** Ensure `build-essential` or equivalent is installed.
+  - **Windows:** Use WSL or a compatible build environment.
+
+---
+
 ## Usage
 
 ### Basic Example
@@ -86,27 +146,6 @@ Termbox2.attrs()  #=> [:bold, :underline, :reverse]
 ```elixir
 Termbox2.print_centered(10, "ERROR!", Termbox2.error_fg(), Termbox2.error_bg())
 ```
-
-## Troubleshooting
-
-- If you see `{:error, :failed}` or NIF loading errors, ensure you have built the NIF and your system has a compatible C toolchain.
-- On macOS, you may need to run `xcode-select --install`.
-- See [termbox2_nif documentation](https://hexdocs.pm/termbox2_nif) for low-level details.
-
-## Testing and NIF Loading
-
-When using the Elixir wrapper as part of this project, the NIF (`termbox2_nif`) is automatically found and loaded as long as you build via the Makefile or with Mix in the `wrappers/elixir` directory.
-
-- No manual copying or symlinking of BEAM or NIF files is required for Elixir tests or development.
-- The Makefile provides a `build-all` target to build and test all wrappers (Erlang, Elixir, Gleam) and ensure the NIF is available everywhere:
-
-```sh
-make build-all
-```
-
-This will compile everything and run all tests, ensuring the NIF is always in the correct place for Elixir and other wrappers.
-
-If you encounter NIF loading errors, ensure you have built the project from the root or run `mix test` in this directory after compiling the NIF.
 
 ## API Documentation
 

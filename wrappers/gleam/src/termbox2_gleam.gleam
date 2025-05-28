@@ -140,7 +140,6 @@ pub fn peek_event(timeout_ms: Int) -> Result(Event, String) {
   let result = tb_peek_event(timeout_ms)
   case result {
     #(type_, mod, key, ch) -> Ok(Event(type_, mod, key, ch))
-    _ -> Error("timeout or error")
   }
 }
 
@@ -149,7 +148,6 @@ pub fn poll_event() -> Result(Event, String) {
   let result = tb_poll_event()
   case result {
     #(type_, mod, key, ch) -> Ok(Event(type_, mod, key, ch))
-    _ -> Error("error")
   }
 }
 

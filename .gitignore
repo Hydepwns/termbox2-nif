@@ -4,6 +4,7 @@ _build/
 *.dump
 erl_crash.dump
 ebin/*.beam
+
 # NIF compilation
 c_src/obj/
 *.so
@@ -13,11 +14,15 @@ c_src/obj/
 
 # Wrappers
 wrappers/elixir/_build/
+wrappers/gleam/_build/
 wrappers/gleam/build/
 wrappers/elixir/rebar.lock
 wrappers/gleam/rebar.lock
 wrappers/elixir/deps/
 wrappers/gleam/deps/
+wrappers/gleam/ebin/
+wrappers/gleam/.cache/
+wrappers/gleam/.gleam/
 
 # Documentation
 doc/*
@@ -31,10 +36,3 @@ tmp/
 # C/C++ related
 .ccls-cache/
 compile_commands.json
-
-# Gleam build artifacts
-wrappers/gleam/build/
-wrappers/gleam/ebin/
-wrappers/gleam/.cache/
-wrappers/gleam/.gleam/
-c_src/termbox2

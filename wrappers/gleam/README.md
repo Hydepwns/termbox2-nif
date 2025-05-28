@@ -16,6 +16,66 @@ gleam add termbox2_gleam@1
 - The `termbox2_nif` Erlang NIF must be built and available in your BEAM path. See the main project README for build instructions.
 - Works on macOS, Linux, and (experimental) Windows. macOS ARM is supported.
 
+---
+
+## Unified Build, Test, and Clean (Recommended)
+
+> **Always use these commands from the project root for all development and CI.**
+
+```sh
+make build      # Build everything (C, Erlang, Elixir, Gleam)
+make test       # Run all tests (Erlang, Elixir, Gleam)
+make clean-all  # Clean all build artifacts and outputs
+```
+
+Or from this directory:
+
+```sh
+make build   # Build (delegates to root)
+make test    # Test (delegates to root)
+make clean   # Clean wrapper build artifacts
+```
+
+These commands ensure the correct NIF/BEAM files are always in place. **Do not manually copy or symlink NIF/BEAM files.**
+
+---
+
+## Quick Reference
+
+| Action         | From Project Root      | From Wrapper Directory      |
+|----------------|-----------------------|----------------------------|
+| Build all      | `make build`          | `make build`               |
+| Test all       | `make test`           | `make test`                |
+| Clean all      | `make clean-all`      | `make clean`               |
+
+---
+
+## CI Usage
+
+Use these targets in your CI (e.g., GitHub Actions):
+
+```yaml
+- run: make build
+- run: make test
+```
+
+---
+
+## Troubleshooting FAQ
+
+- **NIF not found:**
+  - Run `make build` from the project root.
+  - Ensure you have a C compiler installed (GCC/Clang).
+  - Check that you have permission to write to the build directories.
+- **Permissions errors:**
+  - If you see permission errors, try `chmod +x rebar3` or run as a user with appropriate rights.
+- **Platform-specific notes:**
+  - **macOS:** You may need to run `xcode-select --install` to install developer tools.
+  - **Linux:** Ensure `build-essential` or equivalent is installed.
+  - **Windows:** Use WSL or a compatible build environment.
+
+---
+
 ## Usage Example
 
 ```gleam
@@ -48,26 +108,6 @@ pub fn main() {
 - **Drawing utilities:** `draw_box`, `fill_rect`, `print_centered` for easy TUI building.
 - **Event helpers:** Pattern match on event types, keys, and modifiers with helpers like `decode_event`, `decode_key`, `is_key_event`, `has_mod`.
 - **Property-based and edge-case testing:** Extensive test suite covers random and edge-case inputs for all helpers and utilities.
-
-## Testing and NIF Loading
-
-To run all Gleam tests with the correct NIF and code path setup, from the project root run:
-
-```sh
-make gleam-test
-```
-
-This will automatically:
-
-- Copy the latest `termbox2_nif.beam` into the Gleam wrapper's build output.
-- Set the correct code path so the NIF is always found by the BEAM VM.
-
-You no longer need to manually copy or symlink BEAM files for Gleam tests.
-
-## Troubleshooting
-
-- If you see an error about the NIF not loading, ensure you have built the NIF (`rebar3 compile` in the main project) and that the resulting `.so`/`.dylib` is in the `priv/` directory.
-- The NIF must be available in the BEAM code path. If running from source, use `make gleam-test` to ensure the correct setup.
 
 ## Development
 

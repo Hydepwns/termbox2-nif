@@ -26,11 +26,14 @@ A modern, cross-platform BEAM (Erlang/Elixir/Gleam) wrapper for the [termbox2](h
 
 - [About The Project](#about-the-project)
 - [Getting Started](#getting-started)
+- [Unified Build, Test, and Clean (Recommended)](#unified-build-test-and-clean-recommended)
+- [Quick Reference](#quick-reference)
+- [CI Usage](#ci-usage)
+- [Troubleshooting FAQ](#troubleshooting-faq)
 - [Usage](#usage)
   - [Erlang Quickstart](#erlang-quickstart)
   - [Elixir Quickstart](#elixir-quickstart)
   - [Gleam Quickstart](#gleam-quickstart)
-- [Testing & NIF Loading](#testing--nif-loading)
 - [Advanced/Wrapper-Specific Docs](#advancedwrapper-specific-docs)
 - [Roadmap](#roadmap)
 - [License](#license)
@@ -67,11 +70,85 @@ rebar3 compile
 
 #### Elixir
 
+Add to your `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:termbox2_nif, "~> 2.0"}
+  ]
+end
+```
+
+Then run:
+
+```sh
+mix deps.get
+```
+
 See [wrappers/elixir/README.md](wrappers/elixir/README.md) for full instructions.
 
 #### Gleam
 
 See [wrappers/gleam/README.md](wrappers/gleam/README.md) for full instructions.
+
+---
+
+## Unified Build, Test, and Clean (Recommended)
+
+> **Always use these commands from the project root for all development and CI.**
+
+```sh
+make build      # Build everything (C, Erlang, Elixir, Gleam)
+make test       # Run all tests (Erlang, Elixir, Gleam)
+make clean-all  # Clean all build artifacts and outputs
+```
+
+Or from a wrapper directory (Elixir or Gleam):
+
+```sh
+make build   # Build (delegates to root)
+make test    # Test (delegates to root)
+make clean   # Clean wrapper build artifacts
+```
+
+These commands ensure the correct NIF/BEAM files are always in place. **Do not manually copy or symlink NIF/BEAM files.**
+
+---
+
+## Quick Reference
+
+| Action         | From Project Root      | From Wrapper Directory      |
+|----------------|-----------------------|----------------------------|
+| Build all      | `make build`          | `make build`               |
+| Test all       | `make test`           | `make test`                |
+| Clean all      | `make clean-all`      | `make clean`               |
+
+---
+
+## CI Usage
+
+Use these targets in your CI (e.g., GitHub Actions):
+
+```yaml
+- run: make build
+- run: make test
+```
+
+---
+
+## Troubleshooting FAQ
+
+- **NIF not found:**
+  - Run `make build` from the project root.
+  - Ensure you have a C compiler installed (GCC/Clang).
+  - Check that you have permission to write to the build directories.
+- **Permissions errors:**
+  - If you see permission errors, try `chmod +x rebar3` or run as a user with appropriate rights.
+- **Platform-specific notes:**
+  - **macOS:** You may need to run `xcode-select --install` to install developer tools.
+  - **Linux:** Ensure `build-essential` or equivalent is installed.
+  - **Windows:** Use WSL or a compatible build environment.
 
 ---
 
@@ -129,25 +206,6 @@ pub fn main() {
 
 ---
 
-## Testing & NIF Loading
-
-- **Erlang:**
-  - Run tests: `rebar3 ct`
-  - NIF is loaded automatically when built via Makefile or `rebar3`.
-- **Elixir:**
-  - Run tests: `cd wrappers/elixir && mix test`
-  - NIF is loaded automatically; no manual copying needed.
-- **Gleam:**
-  - Run tests: `make gleam-test` (from project root)
-  - This copies the BEAM and sets the code path for NIF loading.
-- **All wrappers:**
-  - Run all tests: `make build-all`
-  - No manual copying or symlinking of BEAM/NIF files is required for any wrapper.
-
-If you encounter NIF loading errors, ensure you have built the project from the root using the Makefile or wrapper-specific instructions.
-
----
-
 ## Advanced/Wrapper-Specific Docs
 
 - [Erlang NIF API](c_src/termbox2_nif.c)
@@ -181,6 +239,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 - **Elixir:** Ergonomic TUI API ([wrappers/elixir/](wrappers/elixir/README.md))
 - **Gleam:** Type-safe TUI API ([wrappers/gleam/](wrappers/gleam/README.md))
 
-NIF binary: built to `termbox2_nif/priv/`. Wrappers symlink/copy from here as needed.
-
-Build all: `make build-all` (see Makefile for details)
+NIF binary: built to `termbox2_nif/priv/`. Wrappers use this automatically via the unified workflow.

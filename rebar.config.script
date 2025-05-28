@@ -52,7 +52,8 @@ CFlags =
         {"priv/termbox2_nif.so", NifSources}
     ]},
     {pre_hooks,
-  	[{"(linux|darwin|solaris)", compile, "make -C c_src"},
+  	[{"(linux|darwin|solaris)", compile, "sh -c 'if [ ! -f c_src/termbox2/termbox2.h ]; then git clone --depth 1 https://github.com/termbox/termbox2.git c_src/termbox2; fi'"},
+   	 {"(linux|darwin|solaris)", compile, "make -C c_src"},
    	 {"(freebsd)", compile, "gmake -C c_src"}]},
     {post_hooks,
   	[{"(linux|darwin|solaris)", clean, "make -C c_src clean"},

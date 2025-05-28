@@ -44,10 +44,8 @@ endif
 C_SRC_DIR = $(CURDIR)
 C_SRC_OUTPUT ?= $(CURDIR)/../priv/$(PROJECT).$(SO_EXTENSION)
 
-TERMBOX2_SRC_DIR = $(C_SRC_DIR)/termbox2/src
-
-CFLAGS += -fPIC -I $(ERTS_INCLUDE_DIR) -I $(ERL_INTERFACE_INCLUDE_DIR) -I $(ERL_INCLUDE) -I $(TERMBOX2_SRC_DIR)
-CXXFLAGS += -fPIC -I $(ERTS_INCLUDE_DIR) -I $(ERL_INTERFACE_INCLUDE_DIR) -I $(TERMBOX2_SRC_DIR)
+CFLAGS += -fPIC -I $(ERTS_INCLUDE_DIR) -I $(ERL_INTERFACE_INCLUDE_DIR) -I $(ERL_INCLUDE) -I $(C_SRC_DIR)/termbox2
+CXXFLAGS += -fPIC -I $(ERTS_INCLUDE_DIR) -I $(ERL_INTERFACE_INCLUDE_DIR) -I $(C_SRC_DIR)/termbox2
 
 LDLIBS += -L $(ERL_INTERFACE_LIB_DIR) -L $(ERL_LIB) -lei 
 
@@ -64,7 +62,7 @@ link_verbose_0 = @echo " LD    " $(@F);
 link_verbose = $(link_verbose_$(V))
 
 NIF_SOURCES := $(wildcard $(C_SRC_DIR)/*.c) $(wildcard $(C_SRC_DIR)/*.C) $(wildcard $(C_SRC_DIR)/*.cc) $(wildcard $(C_SRC_DIR)/*.cpp)
-TERMBOX_SOURCES := $(wildcard $(TERMBOX2_SRC_DIR)/*.c) $(wildcard $(TERMBOX2_SRC_DIR)/*.C) $(wildcard $(TERMBOX2_SRC_DIR)/*.cc) $(wildcard $(TERMBOX2_SRC_DIR)/*.cpp)
+TERMBOX_SOURCES :=
 SOURCES := $(NIF_SOURCES) $(TERMBOX_SOURCES)
 
 OBJECTS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
@@ -75,6 +73,23 @@ COMPILE_C = $(c_verbose) $(CC) $(CFLAGS) $(CPPFLAGS) -c
 COMPILE_CPP = $(cpp_verbose) $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c 
 
 
+# --- Auto-fetch termbox2 source if missing ---
+TERMBOX2_DIR := $(C_SRC_DIR)/termbox2
+TERMBOX2_REPO := https://github.com/termbox/termbox2.git
+
+.PHONY: termbox2_fetch
+termbox2_fetch:
+	@if [ ! -f "$(TERMBOX2_DIR)/termbox2.h" ]; then \
+	  echo "[INFO] termbox2 source not found, cloning..."; \
+	  git clone --depth 1 $(TERMBOX2_REPO) $(TERMBOX2_DIR); \
+	else \
+	  echo "[INFO] termbox2 source found."; \
+	fi
+
+# Ensure termbox2_fetch runs before building anything
+$(C_SRC_OUTPUT): termbox2_fetch
+$(OBJECT_FILES): termbox2_fetch
+
 $(C_SRC_OUTPUT): $(OBJECT_FILES)
 	@mkdir -p $(BASEDIR)/priv/
 	$(link_verbose) $(CC) $(CFLAGS) $(OBJECT_FILES) $(LDFLAGS) $(LDLIBS) -o $(C_SRC_OUTPUT)
@@ -83,11 +98,7 @@ $(OBJ_DIR)/%.o: $(C_SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	$(COMPILE_C) $(OUTPUT_OPTION) $< -o $@
 
-$(OBJ_DIR)/%.o: $(TERMBOX2_SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
-	$(COMPILE_C) $(OUTPUT_OPTION) $< -o $@
-
-# Add rules for C++ if needed, copying the pattern above
+# No termbox2 .c files to compile, header-only
 
 clean:
 	@rm -f $(C_SRC_OUTPUT)

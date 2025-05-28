@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.9] - YYYY-MM-DD
+
+### Added
+- Automated fetching of the termbox2 C source in the build process:
+  - `c_src/Makefile` now auto-fetches the termbox2 source if missing before building.
+  - `rebar.config.script` pre_hooks now ensure the termbox2 source is cloned if missing before compilation.
+
+### Changed
+- Refactored Makefile to treat termbox2 as header-only and removed unnecessary source file rules.
+
 ## [0.1.8] - YYYY-MM-DD
 
 ### Fixed

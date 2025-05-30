@@ -33,7 +33,6 @@ A modern, cross-platform BEAM (Erlang/Elixir/Gleam) wrapper for the [termbox2](h
 ## Table of Contents
 
 - [Getting Started](#getting-started)
-- [Quick Reference](#quick-reference)
 - [Unified Build, Test, and Clean (Recommended)](#unified-build-test-and-clean-recommended)
 - [Troubleshooting FAQ](#troubleshooting-faq)
 - [Usage](#usage)
@@ -95,16 +94,6 @@ See [wrappers/elixir/README.md](wrappers/elixir/README.md) for full instructions
 #### Gleam
 
 See [wrappers/gleam/README.md](wrappers/gleam/README.md) for full instructions.
-
----
-
-## Quick Reference
-
-| Action         | From Project Root      | From Wrapper Directory      |
-|----------------|-----------------------|----------------------------|
-| Build all      | `make build`          | `make build`               |
-| Test all       | `make test`           | `make test`                |
-| Clean all      | `make clean-all`      | `make clean`               |
 
 ---
 

@@ -20,15 +20,21 @@ A modern, cross-platform BEAM (Erlang/Elixir/Gleam) wrapper for the [termbox2](h
 
 > _Note: The repository name was changed because the original "termbox2" name was already taken by the upstream C project. This package provides BEAM/Elixir/Erlang/Gleam bindings for termbox2, not the original C library itself._
 
+## Wrappers Summary
+
+- **Erlang NIF:** Low-level API ([termbox2_nif/](termbox2_nif/))
+- **Elixir:** Ergonomic TUI API ([wrappers/elixir/](wrappers/elixir/README.md))
+- **Gleam:** Type-safe TUI API ([wrappers/gleam/](wrappers/gleam/README.md))
+
+> NIF binary: built to `termbox2_nif/priv/`. Wrappers use this automatically via the unified workflow.
+
 ---
 
 ## Table of Contents
 
-- [About The Project](#about-the-project)
 - [Getting Started](#getting-started)
-- [Unified Build, Test, and Clean (Recommended)](#unified-build-test-and-clean-recommended)
 - [Quick Reference](#quick-reference)
-- [CI Usage](#ci-usage)
+- [Unified Build, Test, and Clean (Recommended)](#unified-build-test-and-clean-recommended)
 - [Troubleshooting FAQ](#troubleshooting-faq)
 - [Usage](#usage)
   - [Erlang Quickstart](#erlang-quickstart)
@@ -36,8 +42,6 @@ A modern, cross-platform BEAM (Erlang/Elixir/Gleam) wrapper for the [termbox2](h
   - [Gleam Quickstart](#gleam-quickstart)
 - [Advanced/Wrapper-Specific Docs](#advancedwrapper-specific-docs)
 - [Roadmap](#roadmap)
-- [License](#license)
-- [Wrappers Summary](#wrappers-summary)
 
 ---
 
@@ -94,6 +98,16 @@ See [wrappers/gleam/README.md](wrappers/gleam/README.md) for full instructions.
 
 ---
 
+## Quick Reference
+
+| Action         | From Project Root      | From Wrapper Directory      |
+|----------------|-----------------------|----------------------------|
+| Build all      | `make build`          | `make build`               |
+| Test all       | `make test`           | `make test`                |
+| Clean all      | `make clean-all`      | `make clean`               |
+
+---
+
 ## Unified Build, Test, and Clean (Recommended)
 
 > **Always use these commands from the project root for all development and CI.**
@@ -113,27 +127,6 @@ make clean   # Clean wrapper build artifacts
 ```
 
 These commands ensure the correct NIF/BEAM files are always in place. **Do not manually copy or symlink NIF/BEAM files.**
-
----
-
-## Quick Reference
-
-| Action         | From Project Root      | From Wrapper Directory      |
-|----------------|-----------------------|----------------------------|
-| Build all      | `make build`          | `make build`               |
-| Test all       | `make test`           | `make test`                |
-| Clean all      | `make clean-all`      | `make clean`               |
-
----
-
-## CI Usage
-
-Use these targets in your CI (e.g., GitHub Actions):
-
-```yaml
-- run: make build
-- run: make test
-```
 
 ---
 
@@ -216,27 +209,6 @@ pub fn main() {
 
 ## Roadmap
 
-- [x] Erlang NIF created
-- [x] Gleam wrapper created
-- [x] Elixir wrapper created
 - [ ] More advanced TUI helpers
 - [ ] Windows support improvements
 - [ ] More property-based tests
-
-See [open issues](https://github.com/Hydepwns/termbox2-nif/issues) for a full list of proposed features and known issues.
-
----
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-
-## Wrappers Summary
-
-- **Erlang NIF:** Low-level API ([termbox2_nif/](termbox2_nif/))
-- **Elixir:** Ergonomic TUI API ([wrappers/elixir/](wrappers/elixir/README.md))
-- **Gleam:** Type-safe TUI API ([wrappers/gleam/](wrappers/gleam/README.md))
-
-NIF binary: built to `termbox2_nif/priv/`. Wrappers use this automatically via the unified workflow.

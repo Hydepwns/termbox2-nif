@@ -67,3 +67,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial setup with basic NIF functions for termbox2.
 - Basic tests to verify NIF loading.
+
+## [0.2.0] - 2025-06-05
+
+### Changed
+
+- **Improved NIF Loading Mechanism:**
+    - Refactored the NIF loading logic in `src/termbox2_nif.erl` for enhanced robustness and clarity.
+    - Prioritizes using `code:priv_dir/1` to accurately locate the NIF within standard Mix/Rebar3 project build directories (e.g., `_build/dev/lib/my_app/priv`). This resolves issues where the NIF might not be found in certain contexts like `mix test`.
+    - The `TERMBOX2_NIF_PATH` environment variable is retained as a flexible override for custom NIF locations.
+    - Eliminated attempts to load the NIF from ambiguous relative paths (such as `priv/` or the current working directory `./`), which previously caused confusing `dlopen` error messages even when the NIF would eventually load.
+    - Simplified the process of trying different NIF library extensions (e.g., `.so`, `.dylib`), making the path resolution cleaner.
+    - These changes lead to more reliable NIF discovery, better alignment with Erlang/Elixir ecosystem practices for NIFs, and a reduction in console noise from failed load attempts.

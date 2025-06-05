@@ -1,5 +1,5 @@
 %% @author DROO AMOR <drew@axol.io>
-%% @version 0.1.10
+%% @version 0.2.0
 
 %% @doc
 %% Erlang NIF for termbox2. Provides low-level terminal UI functions for BEAM languages.

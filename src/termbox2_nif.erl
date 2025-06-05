@@ -1,5 +1,5 @@
 %% @author DROO AMOR <drew@axol.io>
-%% @version 0.1.9
+%% @version 0.1.10
 
 %% @doc
 %% Erlang NIF for termbox2. Provides low-level terminal UI functions for BEAM languages.
@@ -44,30 +44,32 @@
 -on_load(init/0).
 
 init() ->
-    AppNames = [termbox2_gleam, termbox2_nif],
-    NifName = "termbox2_nif",
-    PrivPaths = lists:map(
+    AppNames = [termbox2_gleam, termbox2_nif], % Check for both, as priv dir might be under either
+    NifName = "termbox2_nif", % The actual NIF shared library name (without .so/.dylib)
+    PrivPaths = lists:flatmap(
         fun(App) ->
             case code:priv_dir(App) of
-                {error, _} -> filename:join(["priv", NifName]);
-                Dir -> filename:join(Dir, NifName)
+                {error, _} -> [];
+                Dir -> [filename:join(Dir, NifName)] % Path to NIF *file* itself
             end
         end,
         AppNames
     ),
-    CurDirPath = filename:join([".", NifName]),
     EnvPath = case os:getenv("TERMBOX2_NIF_PATH") of
         false -> [];
-        Path -> [Path]
+        Path -> [Path] % User-specified direct path to NIF file or dir
     end,
-    BasePaths = PrivPaths ++ [CurDirPath] ++ EnvPath,
-    Exts = ["", ".so", ".dylib"],
+    BasePaths = PrivPaths ++ EnvPath, % Combine discovered and env paths
+    Exts = ["", ".so", ".dylib"], % Common extensions to try with base paths
+
+    % Create a list of full path attempts by appending extensions to base paths
     Paths = lists:flatmap(
         fun(Base) ->
             lists:map(fun(Ext) -> Base ++ Ext end, Exts)
         end,
         BasePaths
     ),
+
     io:format("[termbox2_nif] Trying NIF paths:~n", []),
     lists:foreach(
         fun(P) ->
@@ -82,21 +84,18 @@ try_load_nif([Path | Rest]) ->
     io:format("[termbox2_nif] load_nif(~ts) -> ~tp~n", [Path, Result]),
     case Result of
         ok -> ok;
-        {error, {already_loaded, _}} -> ok;
-        _Error when Rest =/= [] -> try_load_nif(Rest);
+        {error, {already_loaded, _}} -> ok; % NIF already loaded is also fine
         Error ->
-            %% As a last resort, try loading Path ++ ".so" if not already tried
-            case ends_with(Path, ".so") of
-                true -> Error;
-                false ->
-                    SoPath = Path ++ ".so",
-                    SoResult = erlang:load_nif(SoPath, 0),
-                    io:format("[termbox2_nif] load_nif(~ts) -> ~tp~n", [SoPath, SoResult]),
-                    SoResult
+            case Rest of
+                [] -> Error; % No more paths to try, return the last error
+                _  -> try_load_nif(Rest) % Try the next path
             end
     end;
 try_load_nif([]) ->
-    {error, not_found}.
+    % This case should ideally not be reached if BasePaths was empty and Paths became empty.
+    % If it is, it means no NIF paths were found or generated.
+    io:format("[termbox2_nif] Error: No NIF paths were available to try.~n", []),
+    {error, nif_path_not_found}.
 
 %% Helper: Erlang doesn't have string:ends_with/2 until OTP 25, so implement it here
 ends_with(Str, Suffix) when is_list(Str), is_list(Suffix) ->

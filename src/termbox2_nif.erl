@@ -97,74 +97,80 @@ try_load_nif([]) ->
     io:format("[termbox2_nif] Error: No NIF paths were available to try.~n", []),
     {error, nif_path_not_found}.
 
-%% Helper: Erlang doesn't have string:ends_with/2 until OTP 25, so implement it here
-ends_with(Str, Suffix) when is_list(Str), is_list(Suffix) ->
-    SuffixLen = length(Suffix),
-    StrLen = length(Str),
-    case StrLen >= SuffixLen of
-        true -> lists:sublist(Str, StrLen - SuffixLen + 1, SuffixLen) =:= Suffix;
-        false -> false
-    end.
-
 %% @doc Initializes the termbox library. This function should be called before any other functions.
+-spec tb_init() -> ok | {error, term()}.
 tb_init() ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc The library must be finalized using the tb_shutdown() function.  Called only when no more tb_ functions are required.
 %% @returns Nothing.
 %% @end
+-spec tb_shutdown() -> ok.
 tb_shutdown() ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Returns the size of the internal back buffer (which is the same as terminal's window size in columns
+-spec tb_width() -> integer().
 tb_width() ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Returns the size of the internal back buffer (which is the same as terminal's window size in rows
+-spec tb_height() -> integer().
 tb_height() ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Clears the internal back buffer using TB_DEFAULT color.
+-spec tb_clear() -> ok.
 tb_clear() ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Synchronizes the internal back buffer with the terminal by writing to the tty.
+-spec tb_present() -> ok.
 tb_present() ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Sets the position of the cursor. Upper-left character is (0, 0).
+-spec tb_set_cursor(integer(), integer()) -> ok.
 tb_set_cursor(_X, _Y) ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Hides the cursor, not every tty supports this.
+-spec tb_hide_cursor() -> ok.
 tb_hide_cursor() ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Sets the individual position of the screen at x,y to character ch, with foreground color fg and bg color bg.
+-spec tb_set_cell(integer(), integer(), integer(), integer(), integer()) -> ok.
 tb_set_cell(_X, _Y, _Ch, _Fg, _Bg) ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Wait for an event up to timeout_ms milliseconds, returning event details in a tuple.
 %% @returns "A THING"
+-spec tb_peek_event(integer()) -> {ok, tuple()} | {error, term()}.
 tb_peek_event(_Timeout) ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Same as tb_peek_event except no timeout, probably going to beat up erlang scheduler, maybe ?
+-spec tb_poll_event() -> {ok, tuple()} | {error, term()}.
 tb_poll_event() ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Print the string at the X and y locations with fg and background colors set.
+-spec tb_print(integer(), integer(), integer(), integer(), string()) -> ok.
 tb_print(_X, _Y, _Fg, _Bg, _Str) ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Sets the termbox input mode.
+-spec tb_set_input_mode(integer()) -> integer().
 tb_set_input_mode(_Mode) ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Sets the termbox output mode.
+-spec tb_set_output_mode(integer()) -> integer().
 tb_set_output_mode(_Mode) ->
     erlang:nif_error(nif_library_not_loaded).
 
 %% @doc Sets the default foreground and background attributes used by tb_clear().
+-spec tb_set_clear_attrs(integer(), integer()) -> ok.
 tb_set_clear_attrs(_Fg, _Bg) ->
     erlang:nif_error(nif_library_not_loaded). 

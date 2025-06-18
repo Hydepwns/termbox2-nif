@@ -10,7 +10,8 @@ all_tests_() ->
         ?_test(nif_load_test), % Add a simple test to ensure module loads
         ?_test(basic_calls_test),
         ?_test(cursor_calls_test),
-        ?_test(cell_print_calls_test)
+        ?_test(cell_print_calls_test),
+        ?_test(title_position_calls_test)
     ].
 
 %%% Test Cases
@@ -38,4 +39,15 @@ cursor_calls_test() ->
 cell_print_calls_test() ->
     Default = 0, Red = 2, Blue = 5,
     ?assert(is_integer(termbox2_nif:tb_set_cell(0, 0, 36, Red, Blue))),
-    ?assert(is_integer(termbox2_nif:tb_print(1, 1, Default, Default, <<"Hello">>))). 
+    ?assert(is_integer(termbox2_nif:tb_print(1, 1, Default, Default, <<"Hello">>))).
+
+% Test title and position calls
+title_position_calls_test() ->
+    % Test title setting
+    ?assertMatch({ok, _}, termbox2_nif:tb_set_title("Test Title")),
+    ?assertMatch({error, _}, termbox2_nif:tb_set_title(123)), % Invalid arg type
+    
+    % Test position setting
+    ?assertMatch({ok, _}, termbox2_nif:tb_set_position(100, 100)),
+    ?assertMatch({error, _}, termbox2_nif:tb_set_position("invalid", 100)), % Invalid arg type
+    ?assertMatch({error, _}, termbox2_nif:tb_set_position(100, "invalid")). % Invalid arg type 

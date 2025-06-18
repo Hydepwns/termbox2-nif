@@ -3,16 +3,16 @@
     {
       "name": "Mac",
       "includePath": [
+        "${workspaceFolder}/**",
         "${workspaceFolder}/c_src/termbox2",
-        "/Users/droo/.asdf/installs/erlang/26.2/erts-14.2/include",
-        "${workspaceFolder}/**"
+        "/usr/local/lib/erlang/erts-*/include",
+        "/usr/local/lib/erlang/lib/erl_interface-*/include"
       ],
       "defines": [],
       "macFrameworkPath": [],
-      "compilerPath": "/usr/bin/cc",
-      "cStandard": "c11",
-      "cppStandard": "c++17",
-      "intelliSenseMode": "macos-arm64-clang"
+      "compilerPath": "/usr/bin/clang",
+      "cStandard": "c99",
+      "intelliSenseMode": "clang-x64"
     }
   ],
   "version": 4

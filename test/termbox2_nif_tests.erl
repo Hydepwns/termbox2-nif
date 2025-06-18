@@ -1,18 +1,10 @@
--module(termbox2_nif_SUITE).
+-module(termbox2_nif_tests).
 -include_lib("eunit/include/eunit.hrl").
 
 % No setup/teardown needed as tb_init() is expected to fail in non-interactive env.
 % We are primarily testing if the NIF calls can be made without crashing.
 
-%% Test Generators
-all_tests_() ->
-    [
-        ?_test(nif_load_test), % Add a simple test to ensure module loads
-        ?_test(basic_calls_test),
-        ?_test(cursor_calls_test),
-        ?_test(cell_print_calls_test),
-        ?_test(title_position_calls_test)
-    ].
+% See also: termbox2_nif_windows_SUITE.erl for Windows-specific tests
 
 %%% Test Cases
 

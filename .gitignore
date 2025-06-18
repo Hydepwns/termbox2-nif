@@ -11,6 +11,7 @@ c_src/obj/
 *.dylib
 *.dll
 *.o
+c_src/termbox2_nif.d
 
 # Wrappers
 wrappers/elixir/_build/

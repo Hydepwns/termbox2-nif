@@ -1,6 +1,6 @@
 {application, termbox2_nif,
  [{description, "Underlying NIF to use the termbox2 C API"},
-  {vsn, "0.2.0"},
+  {vsn, "0.3.0"},
   {pkg_name, termbox2_nif},
   {registered, []},
   {applications,

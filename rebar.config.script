@@ -1,90 +1,136 @@
 NifSharedSources = ["c_src/termbox2_nif.c"].
 NifStaticSources = NifSharedSources.
-CFlagsDefault = "$CFLAGS -Os ".
+
+% Default compiler flags with optimizations and warnings
+CFlagsDefault = "$CFLAGS -Wall -Wextra -Werror -O2 ".
 DrvLdFlagsDefault = "-shared".
 
+% Allow override of compiler flags through environment
 DrvLdFlags =
     case os:getenv("TERMBOX2_CFLAGS") of
         NotDefined when NotDefined == false; NotDefined == [] -> DrvLdFlagsDefault;
         DrvLdFlagsOverride -> DrvLdFlagsOverride
     end.
 
+% Handle system vs bundled termbox2
 {NifSources, LdEnv, CFlagsExt} =
     case os:getenv("TERMBOX2_USE_SYSTEM") of
-        NotDefined when NotDefined == false; NotDefined == [] -> {NifStaticSources, [], " -Ic_src/termbox2"};
-        _Defined -> {NifSharedSources, [{"DRV_LDFLAGS", DrvLdFlags}], []}
+        NotDefined when NotDefined == false; NotDefined == [] -> 
+            {NifStaticSources, [], " -Ic_src/termbox2"};
+        _Defined -> 
+            {NifSharedSources, [{"DRV_LDFLAGS", DrvLdFlags}], []}
     end.
 
-CFlags =
-    case os:getenv("TERMBOX2_CFLAGS") of
-        NotDefined when NotDefined == false; NotDefined == [] -> CFlagsDefault ++ CFlagsExt;
-        CFlagsOverride -> CFlagsOverride
-    end.
+% Allow override of C flags through environment
+CFlags = os:getenv("CFLAGS", "-Wall -Wextra -Werror -O2 -I$(shell erl -eval 'io:format(\"~s\", [code:root_dir()])' -s init stop -noshell)/usr/include"),
 
 [
     {minimum_otp_vsn, "24.0"},
     {project_plugins, [rebar3_ex_doc, rebar3_hex]},
     {files, ["src", "c_src", "priv", "LICENSE", "README.md"]},
 
-    {erl_opts, [debug_info]},
+    % Enable all warnings and treat them as errors
+    {erl_opts, [
+        debug_info,
+        warnings_as_errors,
+        warn_export_all,
+        warn_export_vars,
+        warn_missing_spec,
+        warn_untyped_record
+    ]},
 
-    {xref_checks, [undefined_function_calls,
-                   undefined_functions,
-                   locals_not_used,
-                   deprecated_function_calls,
-                   deprecated_functions]},
+    % Enable all xref checks
+    {xref_checks, [
+        undefined_function_calls,
+        undefined_functions,
+        locals_not_used,
+        deprecated_function_calls,
+        deprecated_functions,
+        warnings_as_errors
+    ]},
 
-
+    % Platform-specific settings
     {port_env, [
-        %% Default darwin ldflags causes loading of system sqlite. Removed -bundle flag.
+        % macOS specific settings
         {"darwin", "DRV_LDFLAGS",
             "-flat_namespace -undefined dynamic_lookup -dynamiclib $ERL_LDFLAGS"},
 
+        % Solaris specific settings
         {"solaris", "CFLAGS",
             "$CFLAGS -std=c99"},
 
+        % Linux specific settings
         {"linux", "CFLAGS",
             "$CFLAGS -std=c11"},
 
+        % Common settings
         {"CFLAGS", CFlags}
     ] ++ LdEnv},
+
+    % Port specifications
     {port_specs, [
         {"priv/termbox2_nif.so", NifSources}
     ]},
-    {pre_hooks,
-  	[{"(linux|darwin|solaris)", compile, "sh -c 'if [ ! -f c_src/termbox2/termbox2.h ]; then git clone --depth 1 https://github.com/termbox/termbox2.git c_src/termbox2; fi'"},
-   	 {"(linux|darwin|solaris)", compile, "make -C c_src"},
-   	 {"(freebsd)", compile, "gmake -C c_src"}]},
-    {post_hooks,
-  	[{"(linux|darwin|solaris)", clean, "make -C c_src clean"},
-   	 {"(freebsd)", clean, "gmake -C c_src clean"}]}, 
 
+    % Pre-build hooks
+    {pre_hooks,
+        [{"(linux|darwin|solaris)", compile, 
+            "sh -c 'if [ ! -f c_src/termbox2/termbox2.h ]; then git clone --depth 1 https://github.com/termbox/termbox2.git c_src/termbox2; fi'"},
+         {"(linux|darwin|solaris)", compile, "make -C c_src"},
+         {"(freebsd)", compile, "gmake -C c_src"}]},
+
+    % Post-build hooks
+    {post_hooks,
+        [{"(linux|darwin|solaris)", clean, "make -C c_src clean"},
+         {"(freebsd)", clean, "gmake -C c_src clean"}]},
+
+    % Plugins
     {plugins, [pc]},
 
+    % Provider hooks
     {provider_hooks,
         [{post,
-        [{compile, {pc, compile}},
-            {clean, {pc, clean}}]}]},
+            [{compile, {pc, compile}},
+             {clean, {pc, clean}}]}]},
 
+    % Dialyzer configuration
     {dialyzer, [
         {warnings, [
             unmatched_returns,
             error_handling,
             race_conditions,
             underspecs,
-            unknown
-        ]}
+            unknown,
+            no_return
+        ]},
+        {plt_apps, top_level_deps},
+        {plt_extra_apps, []},
+        {plt_location, local},
+        {base_plt_apps, [stdlib, kernel, crypto]},
+        {base_plt_location, global}
     ]},
 
-    {edoc_opts, [{preprocess, true},
-                 {stylesheet, "style.css"},
-                 {sort_functions, false}]},
+    % Documentation settings
+    {edoc_opts, [
+        {preprocess, true},
+        {stylesheet, "style.css"},
+        {sort_functions, false},
+        {private, true},
+        {todo, true}
+    ]},
 
-    {hex, [{doc, edoc}]},
+    % Hex package settings
+    {hex, [
+        {doc, edoc},
+        {files, ["src", "c_src", "priv", "LICENSE", "README.md"]}
+    ]},
 
+    % ExDoc settings
     {ex_doc, [
-     {extras, ["README.md", "LICENSE"]},
-     {main, "README.md"},
-     {source_url, "https://github.com/wmealing/termbox2-nif"} ]}
-
+        {extras, ["README.md", "LICENSE"]},
+        {main, "README.md"},
+        {source_url, "https://github.com/wmealing/termbox2-nif"},
+        {source_ref, "master"},
+        {formatter, "html"}
+    ]}
 ].

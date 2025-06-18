@@ -78,7 +78,7 @@ Add to your `mix.exs`:
 ```elixir
 def deps do
   [
-    {:termbox2_nif, "~> 2.0"}
+    {:termbox2_nif, "~> 0.2.0"}
   ]
 end
 ```
@@ -125,6 +125,10 @@ These commands ensure the correct NIF/BEAM files are always in place. **Do not m
   - Run `make build` from the project root.
   - Ensure you have a C compiler installed (GCC/Clang).
   - Check that you have permission to write to the build directories.
+- **Erlang header issues:**
+  - If you see errors about missing `erl_nif.h`, ensure you have Erlang development headers installed.
+  - The build system will automatically detect your Erlang installation path.
+  - For custom Erlang installations, you can set `CFLAGS` environment variable to include your Erlang include path.
 - **Permissions errors:**
   - If you see permission errors, try `chmod +x rebar3` or run as a user with appropriate rights.
 - **Platform-specific notes:**

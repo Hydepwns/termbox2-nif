@@ -88,3 +88,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated `rebar.config.script` to dynamically detect Erlang include paths
   - Enhanced `c_src/Makefile` to properly handle Erlang header dependencies
   - Resolved issues with `erl_nif.h` not being found during compilation
+
+## [0.3.0] - 2024-06-07
+
+### Added
+
+- Tag for new minor release with the following grouped improvements:
+  - Build system enhancements: dynamic Erlang include path detection, improved compiler flags, and platform-specific settings
+  - Documentation updates: troubleshooting for Erlang header issues, improved usage instructions
+  - NIF and test improvements: better error handling, enhanced test suite
+  - Development environment tweaks: updated .tool-versions and VSCode settings
+
+## [0.3.1] - 2024-06-08
+
+### Added
+- Exported and documented new NIF functions: `tb_set_title/1` and `tb_set_position/2`.
+- Unicode support for terminal titles (accepts both binaries and strings).
+- Bounds checking for `tb_set_position/2`.
+
+### Changed
+- Standardized NIF return values for `tb_set_title/1` and `tb_set_position/2` to always return `{ok, _}` on success and `{error, _}` on failure, matching test expectations.
+- Fixed NIF module name mismatch in `ERL_NIF_INIT` macro.
+- Removed redundant NIF loading from the compatibility module (`termbox2`).
+
+### Fixed
+- All tests now pass on all supported platforms.

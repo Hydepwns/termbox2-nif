@@ -1,5 +1,7 @@
 # TERMBOX2-NIF
 
+> **[0.3.1]** Now supports Unicode terminal titles, new NIFs (`tb_set_title/1`, `tb_set_position/2`), and improved error handling. See CHANGELOG for details.
+
 [![Contributors](https://img.shields.io/github/contributors/Hydepwns/termbox2-nif.svg?style=for-the-badge)](https://github.com/Hydepwns/termbox2-nif/graphs/contributors)
 [![Forks](https://img.shields.io/github/forks/Hydepwns/termbox2-nif.svg?style=for-the-badge)](https://github.com/Hydepwns/termbox2-nif/network/members)
 [![Issues](https://img.shields.io/github/issues/Hydepwns/termbox2-nif.svg?style=for-the-badge)](https://github.com/Hydepwns/termbox2-nif/issues)
@@ -78,7 +80,7 @@ Add to your `mix.exs`:
 ```elixir
 def deps do
   [
-    {:termbox2_nif, "~> 0.2.0"}
+    {:termbox2, path: "wrappers/elixir"}, {:termbox2_nif, "~> 0.3.0"}
   ]
 end
 ```
@@ -138,6 +140,21 @@ These commands ensure the correct NIF/BEAM files are always in place. **Do not m
 
 ---
 
+## Windows Build Instructions
+
+- Install [MSYS2](https://www.msys2.org/) or [MinGW-w64](http://mingw-w64.org/)
+- Install Erlang/OTP for Windows
+- Open MSYS2/MinGW shell
+- Run:
+
+  ```sh
+  make build
+  ```
+
+- The NIF will be built as a DLL and placed in the priv/ directory
+
+---
+
 ## Usage
 
 ### Erlang Quickstart
@@ -152,6 +169,10 @@ Str = "Hello, termbox!",
 X = 1, Y = 1,
 Fg = ?TB_DEFAULT, Bg = ?TB_DEFAULT,
 ok = termbox2_nif:tb_print(X, Y, Fg, Bg, Str),
+%% New in 0.3.1: Set terminal title (Unicode supported)
+ok = termbox2_nif:tb_set_title("测试Unicode标题"),
+%% New in 0.3.1: Set terminal window position (with bounds checking)
+ok = termbox2_nif:tb_set_position(100, 100),
 ok = termbox2_nif:tb_present(),
 {ok, _Type, _Mod, _KeyOrChar} = termbox2_nif:tb_poll_event(),
 ok = termbox2_nif:tb_shutdown().
@@ -161,7 +182,7 @@ ok = termbox2_nif:tb_shutdown().
 
 ```elixir
 # In your mix.exs, add:
-# {:termbox2, path: "wrappers/elixir"}, {:termbox2_nif, "~> 2.0.0"}
+# {:termbox2, path: "wrappers/elixir"}, {:termbox2_nif, "~> 0.3.0"}
 
 :ok = Termbox2.init()
 :ok = Termbox2.set_cell(0, 0, ?A, :red, :default)

@@ -30,14 +30,9 @@ CFlags = os:getenv("CFLAGS", "-Wall -Wextra -Werror -O2 -I$(shell erl -eval 'io:
     {files, ["src", "c_src", "priv", "LICENSE", "README.md"]},
 
     % Enable all warnings and treat them as errors
-    {erl_opts, [
-        debug_info,
-        warnings_as_errors,
-        warn_export_all,
-        warn_export_vars,
-        warn_missing_spec,
-        warn_untyped_record
-    ]},
+    {erl_opts, [debug_info]},
+    {erl_opts, [{src, [debug_info, warnings_as_errors, warn_export_all, warn_export_vars, warn_missing_spec, warn_untyped_record]}]},
+    {erl_opts, [{test, [debug_info]}]},
 
     % Enable all xref checks
     {xref_checks, [

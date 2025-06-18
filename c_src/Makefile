@@ -24,7 +24,7 @@ ERL_LIB ?= $(shell  erl -noshell -eval "io:format(\"~ts\", [code:lib_dir()])." -
 UNAME_SYS := $(shell uname -s)
 ifeq ($(UNAME_SYS), Darwin)
 	CC ?= cc
-	CFLAGS ?= -O3 -std=c99 -finline-functions -Wall -Wmissing-prototypes -undefined dynamic_lookup -dynamiclib
+	CFLAGS ?= -O3 -std=c99 -finline-functions -Wall -Wmissing-prototypes -undefined dynamic_lookup -dynamiclib -fvisibility=default
 	CXXFLAGS ?= -O3 -finline-functions -Wall
 	LDFLAGS ?= -undefined dynamic_lookup -dynamiclib
 	SO_EXTENSION := so
@@ -38,6 +38,12 @@ else ifeq ($(UNAME_SYS), Linux)
 	CFLAGS ?= -O3 -std=c99 -finline-functions -Wall -Wmissing-prototypes
 	CXXFLAGS ?= -O3 -finline-functions -Wall
 	SO_EXTENSION ?= so
+else ifeq ($(OS),Windows_NT)
+	CC ?= gcc
+	CFLAGS ?= -O2 -std=c99 -Wall -Wextra -Werror -D_WIN32
+	SO_EXTENSION := dll
+	LDFLAGS ?= -shared
+	LDLIBS += -lkernel32
 endif
 
 C_SRC_DIR = $(CURDIR)

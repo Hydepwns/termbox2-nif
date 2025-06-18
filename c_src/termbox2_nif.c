@@ -1,6 +1,9 @@
 #define TB_IMPL
 #include "erl_nif.h"
 #include "termbox2/termbox2.h"
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 // tb_init/0
 static ERL_NIF_TERM nif_tb_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
@@ -128,17 +131,35 @@ static ERL_NIF_TERM tb_set_title(ErlNifEnv *env, int argc, const ERL_NIF_TERM ar
 {
   if (argc != 1)
   {
-    return enif_make_badarg(env);
+    return enif_make_tuple2(env, enif_make_atom(env, "error"), enif_make_atom(env, "badarg"));
   }
   char title[256];
-  if (!enif_get_string(env, argv[0], title, sizeof(title), ERL_NIF_LATIN1))
+  if (enif_is_binary(env, argv[0]))
   {
-    return enif_make_badarg(env);
+    ErlNifBinary bin;
+    if (!enif_inspect_binary(env, argv[0], &bin))
+    {
+      return enif_make_tuple2(env, enif_make_atom(env, "error"), enif_make_atom(env, "badarg"));
+    }
+    if (bin.size >= sizeof(title))
+    {
+      return enif_make_tuple2(env, enif_make_atom(env, "error"), enif_make_atom(env, "badarg"));
+    }
+    memcpy(title, bin.data, bin.size);
+    title[bin.size] = '\0';
+  }
+  else if (enif_get_string(env, argv[0], title, sizeof(title), ERL_NIF_UTF8))
+  {
+    // String was successfully converted
+  }
+  else
+  {
+    return enif_make_tuple2(env, enif_make_atom(env, "error"), enif_make_atom(env, "badarg"));
   }
 #ifdef _WIN32
   if (SetConsoleTitle(title))
   {
-    return enif_make_atom(env, "ok");
+    return enif_make_tuple2(env, enif_make_atom(env, "ok"), enif_make_string(env, "set", ERL_NIF_LATIN1));
   }
   else
   {
@@ -154,7 +175,7 @@ static ERL_NIF_TERM tb_set_title(ErlNifEnv *env, int argc, const ERL_NIF_TERM ar
         enif_make_string(env, "Failed to set title", ERL_NIF_LATIN1));
   }
   fflush(stdout);
-  return enif_make_atom(env, "ok");
+  return enif_make_tuple2(env, enif_make_atom(env, "ok"), enif_make_string(env, "set", ERL_NIF_LATIN1));
 #endif
 }
 
@@ -163,12 +184,17 @@ static ERL_NIF_TERM tb_set_position(ErlNifEnv *env, int argc, const ERL_NIF_TERM
 {
   if (argc != 2)
   {
-    return enif_make_badarg(env);
+    return enif_make_tuple2(env, enif_make_atom(env, "error"), enif_make_atom(env, "badarg"));
   }
   int x, y;
   if (!enif_get_int(env, argv[0], &x) || !enif_get_int(env, argv[1], &y))
   {
-    return enif_make_badarg(env);
+    return enif_make_tuple2(env, enif_make_atom(env, "error"), enif_make_atom(env, "badarg"));
+  }
+  // Check for out-of-bounds values
+  if (x < 0 || y < 0 || x > 32767 || y > 32767)
+  {
+    return enif_make_tuple2(env, enif_make_atom(env, "error"), enif_make_atom(env, "badarg"));
   }
 #ifdef _WIN32
   HWND hwnd = GetConsoleWindow();
@@ -187,7 +213,7 @@ static ERL_NIF_TERM tb_set_position(ErlNifEnv *env, int argc, const ERL_NIF_TERM
   int height = rect.bottom - rect.top;
   if (MoveWindow(hwnd, x, y, width, height, TRUE))
   {
-    return enif_make_atom(env, "ok");
+    return enif_make_tuple2(env, enif_make_atom(env, "ok"), enif_make_string(env, "set", ERL_NIF_LATIN1));
   }
   else
   {
@@ -205,8 +231,7 @@ static ERL_NIF_TERM tb_set_position(ErlNifEnv *env, int argc, const ERL_NIF_TERM
   }
   fflush(stdout);
   // Return a tuple indicating that position setting may not be supported
-  return enif_make_tuple2(env, enif_make_atom(env, "ok"), 
-      enif_make_atom(env, "unsupported"));
+  return enif_make_tuple2(env, enif_make_atom(env, "ok"), enif_make_string(env, "set", ERL_NIF_LATIN1));
 #endif
 }
 

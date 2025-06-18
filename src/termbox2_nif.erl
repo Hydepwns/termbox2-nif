@@ -22,7 +22,9 @@
     tb_print/5,
     tb_set_input_mode/1,
     tb_set_output_mode/1,
-    tb_set_clear_attrs/2
+    tb_set_clear_attrs/2,
+    tb_set_title/1,
+    tb_set_position/2
 ]).
 -nifs([
     tb_init/0,
@@ -39,7 +41,9 @@
     tb_print/5,
     tb_set_input_mode/1,
     tb_set_output_mode/1,
-    tb_set_clear_attrs/2
+    tb_set_clear_attrs/2,
+    tb_set_title/1,
+    tb_set_position/2
 ]).
 -on_load(init/0).
 
@@ -173,4 +177,14 @@ tb_set_output_mode(_Mode) ->
 %% @doc Sets the default foreground and background attributes used by tb_clear().
 -spec tb_set_clear_attrs(integer(), integer()) -> ok.
 tb_set_clear_attrs(_Fg, _Bg) ->
+    erlang:nif_error(nif_library_not_loaded).
+
+%% @doc Sets the title of the terminal window.
+-spec tb_set_title(string()) -> ok.
+tb_set_title(_Title) ->
+    erlang:nif_error(nif_library_not_loaded).
+
+%% @doc Sets the position of the terminal window.
+-spec tb_set_position(integer(), integer()) -> ok.
+tb_set_position(_X, _Y) ->
     erlang:nif_error(nif_library_not_loaded). 

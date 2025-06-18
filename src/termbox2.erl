@@ -6,7 +6,6 @@
 
 -module(termbox2).
 
-
 -export([
     tb_init/0,
     tb_shutdown/0,
@@ -22,22 +21,14 @@
     tb_print/5,
     tb_set_input_mode/1,
     tb_set_output_mode/1,
-    tb_set_clear_attrs/2
+    tb_set_clear_attrs/2,
+    tb_set_title/1,
+    tb_set_position/2
 ]).
-
--on_load(init/0).
 
 -type tb_event() :: {tb_event, integer(), integer(), integer(), integer()}.
 -type tb_input_mode() :: integer().
 -type tb_output_mode() :: integer().
-
--spec init() -> ok | {error, term()}.
-init() ->
-    case erlang:load_nif("./priv/termbox2_nif", 0) of
-        ok -> ok;
-        {error, {reload, _}} -> ok;
-        {error, Reason} -> {error, Reason}
-    end.
 
 %% @doc Initializes the termbox library. This function should be called before any other functions.
 -spec tb_init() -> ok | {error, term()}.
@@ -118,3 +109,13 @@ tb_set_output_mode(Mode) ->
 -spec tb_set_clear_attrs(Fg :: integer(), Bg :: integer()) -> ok.
 tb_set_clear_attrs(Fg, Bg) ->
     termbox2_nif:tb_set_clear_attrs(Fg, Bg).
+
+%% @doc Sets the title of the terminal window.
+-spec tb_set_title(Title :: string()) -> ok.
+tb_set_title(Title) ->
+    termbox2_nif:tb_set_title(Title).
+
+%% @doc Sets the position of the terminal window.
+-spec tb_set_position(X :: integer(), Y :: integer()) -> ok.
+tb_set_position(X, Y) ->
+    termbox2_nif:tb_set_position(X, Y).
